@@ -9,5 +9,5 @@ jobs:
         name: Build
         command: ./scripts/build.sh
     - store_artifacts:
-        path: PacketStealer.zip
+        path: artifacts
         destination: ./
