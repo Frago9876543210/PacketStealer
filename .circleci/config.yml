@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: ubuntu:18.04
+    steps:
+    - checkout
+    - run:
+        name: Build
+        command: ./scripts/build.sh
+    - store_artifacts:
+        path: PacketStealer.zip
+        destination: ./

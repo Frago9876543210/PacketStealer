@@ -1,0 +1,10 @@
+DisableEncryption/build/*
+vendor/*
+.idea/*
+mods/*
+sdk/*
+bin/*
+helper.sh
+ConsoleScript.php
+*.phar
+*.tar.gz
