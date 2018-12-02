@@ -13,4 +13,4 @@ tar xzf PHP_Linux-x86_64.tar.gz
 ./bin/composer install --prefer-dist --no-interaction
 ./bin/php7/bin/php -dphar.readonly=0 ConsoleScript.php --make src,vendor --relative . --entry "src/PacketStealer.php" --out PacketStealer.phar
 zip -r PacketStealer.zip mods PacketStealer.phar
-mkdir artifacts && mv PacketStealer.zip/artifacts
+mkdir artifacts && mv PacketStealer.zip artifacts
