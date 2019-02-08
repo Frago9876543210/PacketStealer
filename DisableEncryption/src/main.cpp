@@ -9,13 +9,13 @@ struct LoginPacket;
 struct ClientToServerHandshakePacket;
 struct NetworkIdentifier;
 struct ServerNetworkHandler {
-	void handleClientToServerHandshake(NetworkIdentifier const &, ClientToServerHandshakePacket const &);
+	void handle(NetworkIdentifier const &, ClientToServerHandshakePacket const &);
 };
 
-TInstanceHook(void, _ZN20ServerNetworkHandler11handleLoginERK17NetworkIdentifierRK11LoginPacket, ServerNetworkHandler, NetworkIdentifier const &nid, LoginPacket const &packet) {
+TInstanceHook(void, _ZN20ServerNetworkHandler6handleERK17NetworkIdentifierRK11LoginPacket, ServerNetworkHandler, NetworkIdentifier const &nid, LoginPacket const &packet) {
 	original(this, nid, packet);
 	ClientToServerHandshakePacket *pk = nullptr;
-	handleClientToServerHandshake(nid, *pk);
+	handle(nid, *pk);
 }
 
 TClasslessInstanceHook(void, _ZN12PacketSender19sendToPrimaryClientERK17NetworkIdentifierRK6Packet, NetworkIdentifier const &nid, Packet const &packet) {
