@@ -25,10 +25,13 @@
 	"pocketmine/pocketmine-mp": "dev-master",
 	"pocketmine/raklib": "dev-master",
 	"pocketmine/spl": "dev-master",
-	"pocketmine/binaryutils": "^0.1.0",
+	"pocketmine/binaryutils": "^0.1.7",
 	"pocketmine/nbt": "dev-master",
 	"pocketmine/math": "dev-master",
-	"pocketmine/snooze": "^0.1.0"
+	"pocketmine/snooze": "^0.1.0",
+	"daverandom/callback-validator": "dev-master",
+	"adhocore/json-comment": "^0.0.7",
+	"particle/validator": "^2.3"
   },
   "autoload": {
 	"psr-4": {
@@ -39,30 +42,6 @@
 	{
 	  "type": "vcs",
 	  "url": "https://github.com/pmmp/PocketMine-MP"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/RakLib"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/SPL"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/BinaryUtils"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/NBT"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/Math"
-	},
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/pmmp/Snooze"
 	}
   ]
 }

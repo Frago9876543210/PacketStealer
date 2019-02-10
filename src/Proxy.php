@@ -10,10 +10,11 @@ use pocketmine\network\mcpe\NetworkCompression;
 use pocketmine\network\mcpe\PacketStream;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\PacketPool;
+use pocketmine\network\mcpe\protocol\TextPacket;
+use raklib\generic\Socket;
 use raklib\protocol\{Packet, Datagram, EncapsulatedPacket, UnconnectedPing, UnconnectedPong, OpenConnectionRequest1};
-use raklib\server\UDPServerSocket;
 
-class Proxy extends UDPServerSocket{
+class Proxy extends Socket{
 	/** @var Address */
 	private $serverAddress;
 	/** @var Address */
