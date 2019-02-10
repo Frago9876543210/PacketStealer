@@ -10,7 +10,6 @@ use pocketmine\network\mcpe\NetworkCompression;
 use pocketmine\network\mcpe\PacketStream;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\PacketPool;
-use pocketmine\network\mcpe\protocol\TextPacket;
 use raklib\generic\Socket;
 use raklib\protocol\{Packet, Datagram, EncapsulatedPacket, UnconnectedPing, UnconnectedPong, OpenConnectionRequest1};
 
