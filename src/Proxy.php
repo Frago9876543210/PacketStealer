@@ -57,7 +57,7 @@ class Proxy extends Socket{
 			}
 		}else{
 			if($packet instanceof Datagram){
-				$this->handleDatagram($packet, $this->serverAddress->equals($address));
+				$this->handleDatagram($packet);
 			}
 
 			if($this->serverAddress->equals($address)){
@@ -68,30 +68,23 @@ class Proxy extends Socket{
 		}
 	}
 
-	private function handleDatagram(Datagram $datagram, bool $serverSide) : void{
+	private function handleDatagram(Datagram $datagram) : void{
 		foreach($datagram->packets as $pk){
-			$this->handleEncapsulatedPacket($pk, $serverSide);
+			$this->handleEncapsulatedPacket($pk);
 		}
 	}
 
-	private function handleEncapsulatedPacket(EncapsulatedPacket $packet, bool &$serverSide) : void{
+	private function handleEncapsulatedPacket(EncapsulatedPacket $packet) : void{
 		if($packet->hasSplit && ($packet = $this->handleSplit($packet)) === null){
 			return;
 		}
 		if($packet->buffer !== "" && $packet->buffer{0} === "\xfe"){
-			$this->handleBatch($packet->buffer, $serverSide);
+			$this->handleBatch($packet->buffer);
 		}
 	}
 
 	private function handleSplit(EncapsulatedPacket $packet) : ?EncapsulatedPacket{
-		if($packet->splitCount >= 128 or $packet->splitIndex >= 128 or $packet->splitIndex < 0){
-			return null;
-		}
-
 		if(!isset($this->splitPackets[$packet->splitID])){
-			if(count($this->splitPackets) >= 4){
-				return null;
-			}
 			$this->splitPackets[$packet->splitID] = [$packet->splitIndex => $packet];
 		}else{
 			$this->splitPackets[$packet->splitID][$packet->splitIndex] = $packet;
@@ -120,14 +113,14 @@ class Proxy extends Socket{
 		return null;
 	}
 
-	private function handleBatch(string $payload, bool &$serverSide) : void{
+	private function handleBatch(string $payload) : void{
 		try{
 			$stream = new PacketStream(NetworkCompression::decompress(substr($payload, 1)));
 		}catch(\Exception $e){
 			return;
 		}
 		while(!$stream->feof()){
-			$this->handleDataPacket(PacketPool::getPacket($stream->getString()), $serverSide);
+			$this->handleDataPacket(PacketPool::getPacket($stream->getString()));
 		}
 	}
 
@@ -139,7 +132,7 @@ class Proxy extends Socket{
 		}
 	}
 
-	private function handleDataPacket(DataPacket $packet, bool &$serverSide) : void{
+	private function handleDataPacket(DataPacket $packet) : void{
 		echo $this->getClassName($packet) . PHP_EOL;
 	}
 
