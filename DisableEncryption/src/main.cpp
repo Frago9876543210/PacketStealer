@@ -1,10 +1,14 @@
 #include <modloader/statichook.h>
-#include <dlfcn.h>
-#include <string>
+#include <sys/mman.h>
+#include <cstring>
 
-static auto handshake = (size_t) dlsym(dlopen(nullptr, RTLD_LAZY), "_ZTV29ServerToClientHandshakePacket") + 0x10;
+//see https://gist.githubusercontent.com/Frago9876543210/7eab63cfd84e59a9b38f861c68fe3c89/raw/7de5ca63e2131093395c0fa9c79d730f29bd0234/removed_thing
+extern "C" void modloader_on_server_start(void *serverInstance) {
+	auto sym = (size_t) dlsym(RTLD_DEFAULT, "_ZN20ServerNetworkHandler6handleERK17NetworkIdentifierRK11LoginPacket") + 4780;
+	mprotect((void *) ((sym) & ~(4096 - 1)), 4096, PROT_READ | PROT_WRITE | PROT_EXEC);
+	memset((void *) sym, 0x90, 5571 - 4780);	
+}
 
-struct Packet { size_t vt; };
 struct LoginPacket;
 struct ClientToServerHandshakePacket;
 struct NetworkIdentifier;
@@ -17,10 +21,3 @@ TInstanceHook(void, _ZN20ServerNetworkHandler6handleERK17NetworkIdentifierRK11Lo
 	ClientToServerHandshakePacket *pk = nullptr;
 	handle(nid, *pk);
 }
-
-TClasslessInstanceHook(void, _ZN12PacketSender19sendToPrimaryClientERK17NetworkIdentifierRK6Packet, NetworkIdentifier const &nid, Packet const &packet) {
-	if (packet.vt != handshake)
-		original(this, nid, packet);
-}
-
-TClasslessInstanceHook(void, _ZN20EncryptedNetworkPeer16enableEncryptionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE, std::string const &token) {}
